@@ -10,6 +10,7 @@ function App() {
 
   const [breakLength, setBreakLength] = useState(5)
   const [sessionLength, setSessionLength] = useState(25)
+  const [timerText, setTimerText] = useState('Session')
 
 
 
@@ -49,6 +50,9 @@ function App() {
                            setSessionLength={setSessionLength}/>
             </Container>
           </Container>
+        </Container>
+        <Container className={"timer-container"}>
+            <Label id={"timer-label"} text={timerText}/>
         </Container>
     </div>
   );
