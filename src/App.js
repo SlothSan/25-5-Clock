@@ -26,7 +26,11 @@ function App() {
                            sessionLength={sessionLength}
                            setSessionLength={setSessionLength}/>
                 <Length id={"break-length"} length={breakLength}/>
-                <Increment id={"break-increment"}/>
+                <Increment id={"break-increment"}
+                           breakLength={breakLength}
+                           setBreakLength={setBreakLength}
+                           sessionLength={sessionLength}
+                           setSessionLength={setSessionLength}/>
             </Container>
           </Container>
           <Container className={"session-settings-container"}>
@@ -38,7 +42,11 @@ function App() {
                            sessionLength={sessionLength}
                            setSessionLength={setSessionLength}/>
                 <Length id={"session-length"} length={sessionLength}/>
-                <Increment id={"session-increment"}/>
+                <Increment id={"session-increment"}
+                           breakLength={breakLength}
+                           setBreakLength={setBreakLength}
+                           sessionLength={sessionLength}
+                           setSessionLength={setSessionLength}/>
             </Container>
           </Container>
         </Container>
