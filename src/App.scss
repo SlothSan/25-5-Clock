@@ -60,9 +60,26 @@
   }
 
   .timer-container {
+
     .label {
       Font-size: 3.5rem;
     }
+
+    .time-left {
+      font-size: 3rem;
+      text-align: center;
+    }
+    .controls-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        font-size: 4rem;
+        padding: 20px;
+      }
+    }
+
   }
 }
 

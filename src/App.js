@@ -6,6 +6,8 @@ import Decrement from "./Components/Decrement/Decrement";
 import Length from "./Components/Length/Length";
 import Increment from "./Components/Increment/Increment";
 import Timer from "./Components/Timer/Timer";
+import StartStop from "./Components/StartStop/StartStop";
+import Reset from "./Reset/Reset";
 
 function App() {
 
@@ -55,6 +57,10 @@ function App() {
         <Container className={"timer-container"}>
             <Label id={"timer-label"} text={timerText}/>
             <Timer id={"time-left"} sessionLength={sessionLength} breakLength={breakLength} />
+            <Container className={"controls-container"}>
+                <StartStop id={"start_stop"} />
+                <Reset id={"reset"} />
+            </Container>
         </Container>
     </div>
   );
