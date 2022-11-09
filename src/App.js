@@ -5,6 +5,7 @@ import {useState} from "react";
 import Decrement from "./Components/Decrement/Decrement";
 import Length from "./Components/Length/Length";
 import Increment from "./Components/Increment/Increment";
+import Timer from "./Components/Timer/Timer";
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
         </Container>
         <Container className={"timer-container"}>
             <Label id={"timer-label"} text={timerText}/>
+            <Timer id={"time-left"} sessionLength={sessionLength} breakLength={breakLength} />
         </Container>
     </div>
   );
