@@ -1,4 +1,3 @@
-
 const Timer = (props) => {
 
     return (
