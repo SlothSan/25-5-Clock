@@ -1,6 +1,8 @@
+
 const Timer = (props) => {
+
     return (
-        <p id={props.id} className={"time-left"}>{props.sessionLength}</p>
+        <p id={props.id} className={"time-left"}>{props.timeLeft}</p>
     )
 }
 

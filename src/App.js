@@ -1,21 +1,21 @@
 import './App.css';
 import Container from "./Components/Container/Container";
 import Label from "./Components/Label/Label";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Decrement from "./Components/Decrement/Decrement";
 import Length from "./Components/Length/Length";
 import Increment from "./Components/Increment/Increment";
 import Timer from "./Components/Timer/Timer";
 import StartStop from "./Components/StartStop/StartStop";
-import Reset from "./Reset/Reset";
+import Reset from "./Components/Reset/Reset";
 
 function App() {
 
   const [breakLength, setBreakLength] = useState(5)
   const [sessionLength, setSessionLength] = useState(25)
   const [timerText, setTimerText] = useState('Session')
-
-
+  const [sessionRunning, setSessionRunning] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(sessionLength)
 
   return (
     <div className="App">
@@ -56,9 +56,9 @@ function App() {
         </Container>
         <Container className={"timer-container"}>
             <Label id={"timer-label"} text={timerText}/>
-            <Timer id={"time-left"} sessionLength={sessionLength} breakLength={breakLength} />
+            <Timer id={"time-left"} sessionLength={sessionLength} breakLength={breakLength} timeLeft={timeLeft}/>
             <Container className={"controls-container"}>
-                <StartStop id={"start_stop"} />
+                <StartStop id={"start_stop"}/>
                 <Reset id={"reset"} />
             </Container>
         </Container>
