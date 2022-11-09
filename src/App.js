@@ -1,7 +1,7 @@
 import './App.css';
 import Container from "./Components/Container/Container";
 import Label from "./Components/Label/Label";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Decrement from "./Components/Decrement/Decrement";
 import Length from "./Components/Length/Length";
 import Increment from "./Components/Increment/Increment";
@@ -17,27 +17,19 @@ function App() {
     const [isTimerRunning, setIsTimerRunning] = useState(false)
     const [workTime, setWorkTime] = useState(true)
     const [intClock, setIntClock] = useState(sessionLength * 60);
-
+    const ref = useRef(null)
     const handleStartStop = () => {
         setIsTimerRunning(!isTimerRunning)
     }
 
-    const runTimer = () => {
-        return setInterval(() => {
-            if (intClock === 0) {
-                //TODO Add alarm here!
-                if (workTime) {
-                    setIntClock(breakLength * 60)
-                    setWorkTime(false)
-                } else {
-                    setIntClock(sessionLength * 60)
-                    setWorkTime(true)
-                }
-            }
-            let time = intClock
-            setIntClock(time - 1)
-        }, 1000)
+    const handleReset = () => {
+        clearInterval(ref.current)
+        setIsTimerRunning(false)
+        setBreakLength(5)
+        setSessionLength(25)
+        setIntClock(sessionLength * 60)
     }
+
 
     const calcDisplayTime = () => {
         let newMin = String(Math.floor(intClock / 60))
@@ -49,26 +41,44 @@ function App() {
         return newMin + ':' + newSec
     }
 
-    useEffect(() => {
-        let interval;
-        if (isTimerRunning) {
-            interval = setInterval(() => {
-                setIntClock((prevIntClock) => prevIntClock - 1)
-            }, 1000)
-        } else if (!isTimerRunning) {
-            clearInterval(interval)
+    const handleWorkChange = () => {
+        if (workTime) {
+            setTimerText("Session")
+            setIntClock(sessionLength * 60)
+        } else if (!workTime) {
+            setTimerText("Break")
+            setIntClock(breakLength * 60)
         }
-        return () => clearInterval(interval)
-    }, [isTimerRunning])
+    }
 
     useEffect(() => {
-        if (workTime) {
+        let timesRun = 0
+        if (isTimerRunning) {
+            ref.current = setInterval(() => {
+                setIntClock((prevIntClock) => prevIntClock - 1)
+                timesRun++
+                if (timesRun === intClock) {
+                    clearInterval(ref.current)
+                    setIsTimerRunning(true)
+                    setWorkTime(!workTime)
+                    handleWorkChange()
+                }
+            }, 1000)
+        } else if (!isTimerRunning) {
+            clearInterval(ref.current)
+        }
+        return () => clearInterval(ref.current)
+    }, [isTimerRunning, workTime])
+
+    useEffect(() => {
+        if (workTime && !isTimerRunning) {
             setIntClock(sessionLength * 60)
-        } else {
+        } else if (!workTime && !isTimerRunning) {
             setIntClock(breakLength * 60)
         }
 
-    }, [workTime])
+    }, [workTime, sessionLength, breakLength])
+
 
     return (
         <div className="App">
@@ -113,7 +123,7 @@ function App() {
                        timeLeft={calcDisplayTime()}/>
                 <Container className={"controls-container"}>
                     <StartStop id={"start_stop"} onClick={handleStartStop}/>
-                    <Reset id={"reset"}/>
+                    <Reset id={"reset"} onClick={handleReset}/>
                 </Container>
             </Container>
         </div>
