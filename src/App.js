@@ -8,6 +8,7 @@ import Increment from "./Components/Increment/Increment";
 import Timer from "./Components/Timer/Timer";
 import StartStop from "./Components/StartStop/StartStop";
 import Reset from "./Components/Reset/Reset";
+import alarmSound from "./Components/media/Air-raid-siren.mp3";
 
 function App() {
 
@@ -18,12 +19,15 @@ function App() {
     const [workTime, setWorkTime] = useState(true)
     const [intClock, setIntClock] = useState(sessionLength * 60);
     const ref = useRef(null)
+    const alarmRef = useRef(null)
     const handleStartStop = () => {
         setIsTimerRunning(!isTimerRunning)
     }
 
     const handleReset = () => {
         clearInterval(ref.current)
+        alarmRef.current.stop()
+        alarmRef.current.currentTime = 0
         setIsTimerRunning(false)
         setBreakLength(5)
         setSessionLength(25)
@@ -58,6 +62,7 @@ function App() {
                 setIntClock((prevIntClock) => prevIntClock - 1)
                 timesRun++
                 if (timesRun === intClock) {
+                    alarmRef.current.play()
                     clearInterval(ref.current)
                     setIsTimerRunning(true)
                     setWorkTime(!workTime)
@@ -126,6 +131,7 @@ function App() {
                     <Reset id={"reset"} onClick={handleReset}/>
                 </Container>
             </Container>
+            <audio id={"beep"} src={alarmSound} preload={"auto"} ref={alarmRef}/>
         </div>
     );
 }
