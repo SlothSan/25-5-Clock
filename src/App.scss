@@ -8,10 +8,12 @@
   background-color: darkblue;
   color: orange;
   font-family: 'Rubik', sans-serif;
+
   .clock-title {
     font-size: 3rem;
     padding: 30px;
   }
+
   .settings-container {
     display: flex;
     width: 100%;
@@ -25,10 +27,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     .label {
       font-size: 3rem;
     }
   }
+
   .increment-decrement-container {
     display: flex;
     padding: 20px;
@@ -60,15 +64,16 @@
   }
 
   .timer-container {
+    text-align: center;
 
     .label {
-      Font-size: 3.5rem;
+      font-size: 3.5rem;
     }
 
     .time-left {
       font-size: 3rem;
-      text-align: center;
     }
+
     .controls-container {
       display: flex;
       align-items: center;

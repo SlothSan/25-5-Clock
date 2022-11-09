@@ -26,8 +26,8 @@ function App() {
 
     const handleReset = () => {
         clearInterval(ref.current)
-        alarmRef.current.stop()
         alarmRef.current.currentTime = 0
+        alarmRef.current.pause()
         setIsTimerRunning(false)
         setBreakLength(5)
         setSessionLength(25)
@@ -61,7 +61,7 @@ function App() {
             ref.current = setInterval(() => {
                 setIntClock((prevIntClock) => prevIntClock - 1)
                 timesRun++
-                if (timesRun === intClock) {
+                if (timesRun === intClock + 1) {
                     alarmRef.current.play()
                     clearInterval(ref.current)
                     setIsTimerRunning(true)
