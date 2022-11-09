@@ -14,21 +14,12 @@ function App() {
     const [breakLength, setBreakLength] = useState(5)
     const [sessionLength, setSessionLength] = useState(25)
     const [timerText, setTimerText] = useState('Session')
-    const [sessionRunning, setSessionRunning] = useState(true);
-    const [timeLeft, setTimeLeft] = useState("25:00")
-    const [isTimerRunning, setIsTimerRunning] = useState(true)
-    const [intervalId, setIntervalId] = useState(null)
+    const [isTimerRunning, setIsTimerRunning] = useState(false)
     const [workTime, setWorkTime] = useState(true)
-    const [intClock, setIntClock] = useState(1500);
+    const [intClock, setIntClock] = useState(sessionLength * 60);
 
     const handleStartStop = () => {
-        if (isTimerRunning) {
-            setIntervalId(runTimer())
-            setIsTimerRunning(true)
-        } else {
-            clearInterval(intervalId)
-            setIsTimerRunning(false)
-        }
+        setIsTimerRunning(!isTimerRunning)
     }
 
     const runTimer = () => {
@@ -57,6 +48,27 @@ function App() {
 
         return newMin + ':' + newSec
     }
+
+    useEffect(() => {
+        let interval;
+        if (isTimerRunning) {
+            interval = setInterval(() => {
+                setIntClock((prevIntClock) => prevIntClock - 1)
+            }, 1000)
+        } else if (!isTimerRunning) {
+            clearInterval(interval)
+        }
+        return () => clearInterval(interval)
+    }, [isTimerRunning])
+
+    useEffect(() => {
+        if (workTime) {
+            setIntClock(sessionLength * 60)
+        } else {
+            setIntClock(breakLength * 60)
+        }
+
+    }, [workTime])
 
     return (
         <div className="App">
@@ -98,7 +110,7 @@ function App() {
             <Container className={"timer-container"}>
                 <Label id={"timer-label"} text={timerText}/>
                 <Timer id={"time-left"} sessionLength={sessionLength} breakLength={breakLength}
-                       timeLeft={calcDisplayTime()} setTimeLeft={setTimeLeft}/>
+                       timeLeft={calcDisplayTime()}/>
                 <Container className={"controls-container"}>
                     <StartStop id={"start_stop"} onClick={handleStartStop}/>
                     <Reset id={"reset"}/>
