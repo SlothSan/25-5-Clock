@@ -142,8 +142,6 @@ function App() {
                 </Container>
             </Container>
             <audio id={"beep"} src={alarmSound} preload={"auto"} ref={alarmRef}/>
-            <p>{breakLength}</p>
-            <p>{sessionLength}</p>
         </div>
     );
 }
