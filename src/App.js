@@ -14,30 +14,31 @@ function App() {
 
     const [breakLength, setBreakLength] = useState(5)
     const [sessionLength, setSessionLength] = useState(25)
-    const [timerText, setTimerText] = useState('Session')
     const [isTimerRunning, setIsTimerRunning] = useState(false)
     const [workTime, setWorkTime] = useState(true)
-    const [intClock, setIntClock] = useState(sessionLength * 60);
-    const ref = useRef(null)
+    const [countdownTime, setCountdownTime] = useState(sessionLength * 60);
+    const timerRef = useRef(null)
     const alarmRef = useRef(null)
+
     const handleStartStop = () => {
         setIsTimerRunning(!isTimerRunning)
     }
 
     const handleReset = () => {
-        clearInterval(ref.current)
+        clearInterval(timerRef.current)
         alarmRef.current.currentTime = 0
         alarmRef.current.pause()
         setIsTimerRunning(false)
         setBreakLength(5)
         setSessionLength(25)
-        setIntClock(sessionLength * 60)
+        setWorkTime(true)
+        setCountdownTime(sessionLength * 60)
     }
 
 
     const calcDisplayTime = () => {
-        let newMin = String(Math.floor(intClock / 60))
-        let newSec = String(intClock % 60)
+        let newMin = String(Math.floor(countdownTime / 60))
+        let newSec = String(countdownTime % 60)
 
         if (newMin.length === 1) newMin = '0' + newMin
         if (newSec.length === 1) newSec = '0' + newSec
@@ -46,40 +47,36 @@ function App() {
     }
 
     const handleWorkChange = () => {
-        if (workTime) {
-            setTimerText("Session")
-            setIntClock(sessionLength * 60)
-        } else if (!workTime) {
-            setTimerText("Break")
-            setIntClock(breakLength * 60)
+        if (countdownTime === 0) {
+            alarmRef.current.play()
+            setIsTimerRunning(false)
+            setWorkTime(!workTime)
+            if (workTime) {
+                setCountdownTime(sessionLength * 60)
+            } else {
+                setCountdownTime(breakLength * 60)
+            }
+            setIsTimerRunning(true)
         }
     }
 
     useEffect(() => {
-        let timesRun = 0
         if (isTimerRunning) {
-            ref.current = setInterval(() => {
-                setIntClock((prevIntClock) => prevIntClock - 1)
-                timesRun++
-                if (timesRun === intClock + 1) {
-                    alarmRef.current.play()
-                    clearInterval(ref.current)
-                    setIsTimerRunning(true)
-                    setWorkTime(!workTime)
-                    handleWorkChange()
-                }
+            timerRef.current = setTimeout(() => {
+                setCountdownTime(countdownTime - 1)
+                handleWorkChange()
             }, 1000)
         } else if (!isTimerRunning) {
-            clearInterval(ref.current)
+            return () => clearTimeout(timerRef.current)
         }
-        return () => clearInterval(ref.current)
-    }, [isTimerRunning, workTime])
+    }, [isTimerRunning, countdownTime])
+
 
     useEffect(() => {
         if (workTime && !isTimerRunning) {
-            setIntClock(sessionLength * 60)
+            setCountdownTime(sessionLength * 60)
         } else if (!workTime && !isTimerRunning) {
-            setIntClock(breakLength * 60)
+            setCountdownTime(breakLength * 60)
         }
 
     }, [workTime, sessionLength, breakLength])
@@ -123,7 +120,7 @@ function App() {
                 </Container>
             </Container>
             <Container className={"timer-container"}>
-                <Label id={"timer-label"} text={timerText}/>
+                <Label id={"timer-label"} workTime={workTime}/>
                 <Timer id={"time-left"} sessionLength={sessionLength} breakLength={breakLength}
                        timeLeft={calcDisplayTime()}/>
                 <Container className={"controls-container"}>
