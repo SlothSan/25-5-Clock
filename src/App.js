@@ -128,6 +128,7 @@ function App() {
             <Container className={"timer-container"}>
                 <Label id={"timer-label"} workTime={workTime}/>
                 <Timer id={"time-left"} sessionLength={sessionLength} breakLength={breakLength}
+                       countdownTime={countdownTime}
                        timeLeft={calcDisplayTime()}/>
                 <Container className={"controls-container"}>
                     <StartStop id={"start_stop"} onClick={handleStartStop}/>
@@ -135,6 +136,8 @@ function App() {
                 </Container>
             </Container>
             <audio id={"beep"} src={alarmSound} preload={"auto"} ref={alarmRef}/>
+            <p>{breakLength}</p>
+            <p>{sessionLength}</p>
         </div>
     );
 }
