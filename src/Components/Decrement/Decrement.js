@@ -1,12 +1,12 @@
 const Decrement = (props) => {
 
     const handleDecrementClick = () => {
-        if(props.id === "break-decrement") {
-            if(props.breakLength > 1) {
+        if (props.id === "break-decrement") {
+            if (props.breakLength > 1 && !props.isTimerRunning) {
                 props.setBreakLength(props.breakLength - 1)
             }
         } else {
-            if(props.sessionLength > 1) {
+            if (props.sessionLength > 1 && !props.isTimerRunning) {
                 props.setSessionLength(props.sessionLength - 1)
             }
         }
@@ -17,4 +17,4 @@ const Decrement = (props) => {
     )
 }
 
-export default  Decrement
+export default Decrement

@@ -65,6 +65,7 @@ function App() {
         if (isTimerRunning) {
             timerRef.current = setTimeout(() => {
                 setCountdownTime(countdownTime - 1)
+                clearTimeout(timerRef.current)
                 handleWorkChange()
             }, 1000)
         } else if (!isTimerRunning) {
@@ -94,13 +95,15 @@ function App() {
                                    breakLength={breakLength}
                                    setBreakLength={setBreakLength}
                                    sessionLength={sessionLength}
-                                   setSessionLength={setSessionLength}/>
+                                   setSessionLength={setSessionLength}
+                                   isTimerRunning={isTimerRunning}/>
                         <Length id={"break-length"} length={breakLength}/>
                         <Increment id={"break-increment"}
                                    breakLength={breakLength}
                                    setBreakLength={setBreakLength}
                                    sessionLength={sessionLength}
-                                   setSessionLength={setSessionLength}/>
+                                   setSessionLength={setSessionLength}
+                                   isTimerRunning={isTimerRunning}/>
                     </Container>
                 </Container>
                 <Container className={"session-settings-container"}>
@@ -110,13 +113,15 @@ function App() {
                                    breakLength={breakLength}
                                    setBreakLength={setBreakLength}
                                    sessionLength={sessionLength}
-                                   setSessionLength={setSessionLength}/>
+                                   setSessionLength={setSessionLength}
+                                   isTimerRunning={isTimerRunning}/>
                         <Length id={"session-length"} length={sessionLength}/>
                         <Increment id={"session-increment"}
                                    breakLength={breakLength}
                                    setBreakLength={setBreakLength}
                                    sessionLength={sessionLength}
-                                   setSessionLength={setSessionLength}/>
+                                   setSessionLength={setSessionLength}
+                                   isTimerRunning={isTimerRunning}/>
                     </Container>
                 </Container>
             </Container>
