@@ -36,6 +36,14 @@ function App() {
         setCountdownTime(sessionLength * 60)
     }
 
+    const setCountdown = () => {
+        if (workTime && !isTimerRunning) {
+            setCountdownTime(sessionLength * 60)
+        } else if (!workTime && !isTimerRunning) {
+            setCountdownTime(breakLength * 60)
+        }
+    }
+
 
     const calcDisplayTime = () => {
         let newMin = String(Math.floor(countdownTime / 60))
@@ -49,14 +57,17 @@ function App() {
 
     const handleWorkChange = () => {
         if (countdownTime === 0) {
-            alarmRef.current.play()
             setIsTimerRunning(false)
-            setWorkTime(!workTime)
             if (workTime) {
-                setCountdownTime(sessionLength * 60)
-            } else {
+                setWorkTime(false)
                 setCountdownTime(breakLength * 60)
+            } else {
+                setWorkTime(true)
+                setCountdownTime(sessionLength * 60)
             }
+            setCountdown()
+            clearInterval(timerRef.current)
+            alarmRef.current.play()
             setIsTimerRunning(true)
         }
     }
@@ -65,7 +76,6 @@ function App() {
         if (isTimerRunning) {
             timerRef.current = setTimeout(() => {
                 setCountdownTime(countdownTime - 1)
-                clearTimeout(timerRef.current)
                 handleWorkChange()
             }, 1000)
         } else if (!isTimerRunning) {
@@ -75,11 +85,7 @@ function App() {
 
 
     useEffect(() => {
-        if (workTime && !isTimerRunning) {
-            setCountdownTime(sessionLength * 60)
-        } else if (!workTime && !isTimerRunning) {
-            setCountdownTime(breakLength * 60)
-        }
+        setCountdown()
 
     }, [workTime, sessionLength, breakLength])
 
