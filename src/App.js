@@ -8,7 +8,7 @@ import Increment from "./Components/Increment/Increment";
 import Timer from "./Components/Timer/Timer";
 import StartStop from "./Components/StartStop/StartStop";
 import Reset from "./Components/Reset/Reset";
-import alarmSound from "./Components/media/Air-raid-siren.mp3";
+import alarmSound from "./Components/media/alarm.mp3";
 
 function App() {
 
