@@ -21,6 +21,7 @@ function App() {
     const alarmRef = useRef(null)
 
     const handleStartStop = () => {
+        clearTimeout(timerRef.current)
         setIsTimerRunning(!isTimerRunning)
     }
 
