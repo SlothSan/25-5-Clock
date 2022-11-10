@@ -142,6 +142,7 @@ function App() {
                 </Container>
             </Container>
             <audio id={"beep"} src={alarmSound} preload={"auto"} ref={alarmRef}/>
+            <p className={"citation-text"}>Created by Mike Oram</p>
         </div>
     );
 }
